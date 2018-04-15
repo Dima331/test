@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Корзина</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <link rel="stylesheet" href="assets/styles/app.min.css">
+    <script src="assets/scripts/bundle.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="mask-container"></div>
+      <div class="container">
+        <header class="header">
+          <div class="header__row">
+            <div class="logo"><a class="logo__link" href="#"><img class="logo__link-pic" src="assets/images/content/logo.png" alt="logo"></a></div>
+            <form class="search" method="post">
+              <div class="search__text"> 
+                <input class="search__text-input" type="text" name="search">
+                <label class="visuallyhidden search__text-label">Поиск</label>
+              </div>
+              <input class="search__submit" type="submit" value="Поиск">
+            </form>
+          </div>
+          <nav class="nav nav_margin">
+            <ul class="menu-list">
+              <li class="menu-list__item"><a class="menu-list__item-link" href="#">Каталог продукции</a></li>
+              <li class="menu-list__item"><a class="menu-list__item-link" href="#">Все бренды</a></li>
+              <li class="menu-list__item"><a class="menu-list__item-link" href="#">Подаркина на 14 февроля</a></li>
+              <li class="menu-list__item"><a class="menu-list__item-link" href="#">Подаркина на 23 февроля</a></li>
+              <li class="menu-list__item"><a class="menu-list__item-link" href="#">Подаркина на 8 марта</a></li>
+            </ul>
+          </nav>
+        </header>
+        <main class="main main_margin">
+          <ul class="breadcrumbs">
+            <li class="breadcrumbs__item"><a class="breadcrumbs__item-link" href="#">Главная</a></li>
+            <li class="breadcrumbs__item"> <a class="breadcrumbs__item-link" href="#">Корзина</a></li>
+          </ul>
+          <h1 class="block-title block-title_margin">Корзина</h1>
+          <div class="basket-content">
+            <div class="basket-content__goods all-goods">
+              <div class="all-goods__allocated">Выделено <span class="all-goods__allocated-number"> {{ quantityCheck(checkedNames) }} </span></div>
+              <button class="all-goods__delete" v-on:click="reset(checkedNames)">Удалить отмеченные</button>
+            </div>
+            <ul class="basket-content__list basket">
+              <li class="basket__item product">
+                <div class="basket__item-col product__checked">
+                  <label class="product__checked-torggle item-checkbox" for="checkbox1"> <span class="visuallyhidden">Товар</span>
+                    <input class="item-checkbox__input visuallyhidden" type="checkbox" name="checkbox" value="Товар 1" id="checkbox1" v-model="checkedNames">
+                    <div class="item-checkbox__fake">
+                      <div class="item-checkbox__fake_flag">   </div>
+                    </div>
+                    <div class="item-checkbox__title">1</div>
+                  </label>
+                </div>
+                <div class="basket__item-col product__image"><img class="product__image-pic" v-bind:src="`${ item[0].image }`" alt="Товар"></div>
+                <div class="basket__item-col product__info">
+                  <p>{{ item[0].info }}</p>
+                </div>
+                <div class="basket__item-col product__price price">
+                  <div class="price__one">{{ item[0].priseOne }} p</div>
+                  <div class="price__number" id="modal1" v-on:click="windowGoods(0)">
+                    <input class="price__number-input" type="text" name="price" :value="`${ item[0].number }`" disabled>
+                    <label class="visuallyhidden" for="price">Количество товара</label>
+                  </div>
+                  <div class="price__full">{{ item[0].priseFull }} p</div>
+                </div>
+                <div class="basket__item-message window-product" v-bind:class="{ visuallyhidden: windowCheck[0]}">{{uno(0)}}
+                  <div class="window-product__title">Изменить колличество</div>
+                  <div class="window-product__price window-product__price_margin">
+                    <div class="window-product__price-one">{{ tmpPrice[0].tempOne }} p</div>
+                    <button class="window-product__price-minus" v-on:click="minus(0)">-</button>
+                    <div class="window-product__price-text"> 
+                      <input class="window-product__price-text_input" type="text" name="win-text" v-model="tmpPrice[0].num" id="text">
+                      <label class="visuallyhidden" for="price" name="win-price">Количество товара</label>
+                    </div>
+                    <button class="window-product__price-plus" v-on:click="plus(0)">+</button>
+                    <div class="window-product__price-full">{{ tmpPrice[0].tempFull }} p  </div>
+                  </div>
+                  <div class="window-product__error" v-bind:class="{ visuallyhidden: error}">Введите число          </div>
+                  <div class="window-product__button">
+                    <button class="window-product__button-save" v-on:click="save(0)">Сохранить</button>
+                    <button class="window-product__button-back">Отменить</button>
+                  </div>
+                </div>
+              </li>
+              <li class="basket__item product">
+                <div class="basket__item-col product__checked">
+                  <label class="product__checked-torggle item-checkbox" for="checkbox2"> <span class="visuallyhidden">Товар</span>
+                    <input class="item-checkbox__input visuallyhidden" type="checkbox" name="checkbox" value="Товар 2" id="checkbox2" v-model="checkedNames">
+                    <div class="item-checkbox__fake">
+                      <div class="item-checkbox__fake_flag">   </div>
+                    </div>
+                    <div class="item-checkbox__title">2</div>
+                  </label>
+                </div>
+                <div class="basket__item-col product__image"><img class="product__image-pic" v-bind:src="`${ item[1].image }`" alt="Товар"></div>
+                <div class="basket__item-col product__info">
+                  <p>{{ item[1].info }}</p>
+                </div>
+                <div class="basket__item-col product__price price">
+                  <div class="price__one">{{ item[1].priseOne }} p</div>
+                  <div class="price__number" id="modal2" v-on:click="windowGoods(1)">
+                    <input class="price__number-input" type="text" name="price" :value="`${ item[1].number }`" disabled>
+                    <label class="visuallyhidden" for="price">Количество товара</label>
+                  </div>
+                  <div class="price__full">{{ item[1].priseFull }} p</div>
+                </div>
+                <div class="basket__item-message window-product" v-bind:class="{ visuallyhidden: windowCheck[1]}">{{uno(1)}}
+                  <div class="window-product__title">Изменить колличество</div>
+                  <div class="window-product__price window-product__price_margin">
+                    <div class="window-product__price-one">{{ tmpPrice[1].tempOne }} p</div>
+                    <button class="window-product__price-minus" v-on:click="minus(1)">-</button>
+                    <div class="window-product__price-text"> 
+                      <input class="window-product__price-text_input" type="text" name="win-text" v-model="tmpPrice[1].num">
+                      <label class="visuallyhidden" for="price" name="win-price">Количество товара</label>
+                    </div>
+                    <button class="window-product__price-plus" v-on:click="plus(1)">+</button>
+                    <div class="window-product__price-full">{{ tmpPrice[1].tempFull }} p          </div>
+                  </div>
+                  <div class="window-product__button">
+                    <button class="window-product__button-save" v-on:click="save(1)">Сохранить</button>
+                    <button class="window-product__button-back">Отменить</button>
+                  </div>
+                </div>
+              </li>
+              <li class="basket__item product">
+                <div class="basket__item-col product__checked">
+                  <label class="product__checked-torggle item-checkbox" for="checkbox3"> <span class="visuallyhidden">Товар</span>
+                    <input class="item-checkbox__input visuallyhidden" type="checkbox" name="checkbox" value="Товар 3" id="checkbox3" v-model="checkedNames">
+                    <div class="item-checkbox__fake">
+                      <div class="item-checkbox__fake_flag">   </div>
+                    </div>
+                    <div class="item-checkbox__title">3</div>
+                  </label>
+                </div>
+                <div class="basket__item-col product__image"><img class="product__image-pic" v-bind:src="`${ item[2].image }`" alt="Товар"></div>
+                <div class="basket__item-col product__info">
+                  <p>{{ item[2].info }} p</p>
+                </div>
+                <div class="basket__item-col product__price price">
+                  <div class="price__one">{{ item[2].priseOne }} p</div>
+                  <div class="price__number" id="modal3" v-on:click="windowGoods(2)">
+                    <input class="price__number-input" type="text" name="price" :value="`${ item[2].number }`" disabled>
+                    <label class="visuallyhidden" for="price">Количество товара</label>
+                  </div>
+                  <div class="price__full">{{ item[2].priseFull }} р</div>
+                </div>
+                <div class="basket__item-message window-product" v-bind:class="{ visuallyhidden: windowCheck[2]}">{{uno(2)}}
+                  <div class="window-product__title">Изменить колличество</div>
+                  <div class="window-product__price window-product__price_margin">
+                    <div class="window-product__price-one">{{ tmpPrice[2].tempOne }} p</div>
+                    <button class="window-product__price-minus" v-on:click="minus(2)">-</button>
+                    <div class="window-product__price-text"> 
+                      <input class="window-product__price-text_input" type="text" name="win-text" v-model="tmpPrice[2].num">
+                      <label class="visuallyhidden" for="price" name="win-price">Количество товара</label>
+                    </div>
+                    <button class="window-product__price-plus" v-on:click="plus(2)">+</button>
+                    <div class="window-product__price-full">{{ tmpPrice[2].tempFull }} p          </div>
+                  </div>
+                  <div class="window-product__button">
+                    <button class="window-product__button-save" v-on:click="save(2)">Сохранить</button>
+                    <button class="window-product__button-back">Отменить  </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="basket-content__intermediate">
+              <div class="intermediate-price">
+                <div class="intermediate-price__row">
+                  <div class="intermediate-price__text">Промежутосный итог по корзине:</div>
+                  <div class="intermediate-price__number">{{ interval() }} p</div>
+                </div>
+                <div class="intermediate-price__row">
+                  <div class="intermediate-price__text">В том числе НДС:</div>
+                  <div class="intermediate-price__number"> {{ nds }} p</div>
+                </div>
+              </div>
+            </div>
+            <div class="basket-content__full-price full-price">
+              <div class="full-price__text"> Итого:</div>
+              <div class="full-price__number">{{ Itog }} р</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

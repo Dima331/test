@@ -41,12 +41,53 @@ block content
             .all-goods__allocated Выделено 
               span.all-goods__allocated-number  {{ quantityCheck(checkedNames) }} 
             button.all-goods__delete(v-on:click="reset(checkedNames)") Удалить отмеченные
+
+
           ul.basket-content__list.basket
-            li.basket__item.product
+            li.basket__item.product(v-for="(it, index) in item" )
+              .basket__item-col.product__checked
+                label(:for="`${ index + 1}`").product__checked-torggle.item-checkbox 
+                    span.visuallyhidden Товар
+                    input(type="checkbox", name="checkbox", :value="`${ index}`", :id="`${ index + 1}`"  v-model="checkedNames").item-checkbox__input.visuallyhidden
+                    .item-checkbox__fake
+                      .item-checkbox__fake_flag    
+                    .item-checkbox__title {{index + 1 }}
+              .basket__item-col.product__image
+                img( v-bind:src="`${ it.image }`",alt="Товар").product__image-pic
+              .basket__item-col.product__info
+                p {{ it.info }}
+              .basket__item-col.product__price.price
+                .price__one {{ it.priseOne }} p
+                .price__number(v-on:click="windowGoods(index)", :id="`modal${ index + 1}`")
+                  input(type="text" name="price", :value="`${ it.number }`", disabled).price__number-input
+                  label(for="price").visuallyhidden Количество товара
+                .price__full {{ it.priseFull }} p
+              .basket__item-message.window-product(v-bind:class= "{ visuallyhidden: windowCheck[index]}") {{uno(index)}}
+                .window-product__title Изменить колличество
+                .window-product__price.window-product__price_margin
+                  .window-product__price-one {{ tmpPrice[index].tempOne }} p
+                  button.window-product__price-minus(v-on:click="minus(index)") -
+                  .window-product__price-text 
+                    input(type="text" name="win-text", v-model="tmpPrice[index].num").window-product__price-text_input#text
+                    label(for="price" name="win-price").visuallyhidden Количество товара
+                  button.window-product__price-plus(v-on:click="plus(index)") +
+                  .window-product__price-full {{ tmpPrice[index].tempFull }} p  
+                .window-product__error(v-bind:class= "{ visuallyhidden: error}") Введите число          
+                .window-product__button
+                  button.window-product__button-save(v-on:click="save(index)") Сохранить
+                  button.window-product__button-back Отменить
+
+
+
+
+
+
+
+            //li.basket__item.product(v-if="lines[0].line1", )
               .basket__item-col.product__checked
                 label(for="checkbox1").product__checked-torggle.item-checkbox 
                     span.visuallyhidden Товар
-                    input(type="checkbox", name="checkbox" value="Товар 1" id="checkbox1"  v-model="checkedNames").item-checkbox__input.visuallyhidden
+                    input(type="checkbox", name="checkbox" value="1" id="checkbox1"  v-model="checkedNames").item-checkbox__input.visuallyhidden
                     .item-checkbox__fake
                       .item-checkbox__fake_flag    
                     .item-checkbox__title 1
@@ -56,7 +97,7 @@ block content
                 p {{ item[0].info }}
               .basket__item-col.product__price.price
                 .price__one {{ item[0].priseOne }} p
-                .price__number#modal1(v-on:click="windowGoods(0)")
+                .price__number(v-on:click="windowGoods(0)")#modal1
                   input(type="text" name="price", :value="`${ item[0].number }`", disabled).price__number-input
                   label(for="price").visuallyhidden Количество товара
                 .price__full {{ item[0].priseFull }} p
@@ -74,11 +115,15 @@ block content
                 .window-product__button
                   button.window-product__button-save(v-on:click="save(0)") Сохранить
                   button.window-product__button-back Отменить
-            li.basket__item.product
+
+
+
+
+            //li.basket__item.product(v-if="lines[0].line2")
               .basket__item-col.product__checked
                 label(for="checkbox2").product__checked-torggle.item-checkbox 
                     span.visuallyhidden Товар
-                    input(type="checkbox", name="checkbox" value="Товар 2" id="checkbox2" v-model="checkedNames" ).item-checkbox__input.visuallyhidden
+                    input(type="checkbox", name="checkbox" value="2" id="checkbox2" v-model="checkedNames" ).item-checkbox__input.visuallyhidden
                     .item-checkbox__fake
                       .item-checkbox__fake_flag    
                     .item-checkbox__title 2
@@ -105,11 +150,11 @@ block content
                 .window-product__button
                   button.window-product__button-save(v-on:click="save(1)") Сохранить
                   button.window-product__button-back Отменить
-            li.basket__item.product
+            //li.basket__item.product(v-if="lines[0].line3")
               .basket__item-col.product__checked
                 label(for="checkbox3").product__checked-torggle.item-checkbox 
                     span.visuallyhidden Товар
-                    input(type="checkbox", name="checkbox" value="Товар 3" id="checkbox3" v-model="checkedNames").item-checkbox__input.visuallyhidden
+                    input(type="checkbox", name="checkbox" value="3" id="checkbox3" v-model="checkedNames").item-checkbox__input.visuallyhidden
                     .item-checkbox__fake
                       .item-checkbox__fake_flag    
                     .item-checkbox__title 3

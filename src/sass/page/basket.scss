@@ -128,13 +128,20 @@
     box-shadow: inset 0px 0px 5px 0px rgba(9, 12, 18, 0.12);
     text-align: center;
 }
-.price__number::before{
+
+
+.price__one::after{
     content: "x";
-    margin-right: 15px;
+    right: 15px;
+    position: absolute;
 }
-.price__number::after{
+.price__full::after{
     content: "=";
-    margin-left: 15px;
+    left: 15px;
+    position: absolute;
+}
+.price__number{
+    flex: 0;
 }
 
 .price__full{
@@ -203,10 +210,10 @@
     width: 70px;
     text-align: right;
 }
-.window-product__price-price::after{
+.window-product__price-one::after{
     content: "x";
     position: absolute;
-    right: 0;
+    right: 4px;
 }
 .window-product__button-save{
     color: rgb(0, 98, 150);
@@ -303,9 +310,11 @@
     font-size: 14px;
     font-family: "Arial";
     color: rgb(37, 37, 37);
+    position: relative;
 }
 .price__one{
     font-size: 14px;
     font-family: "Arial";
     color: rgb(98, 98, 98);
+    position: relative;
 }

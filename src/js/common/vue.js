@@ -10,6 +10,11 @@ const vue = (function () {
                     check: 0,
                     windowCheck: [true, true, true],
                     window: [],
+                    lines: [{
+                        line1: false,
+                        line2: true,
+                        line3: true,
+                    }],
                     item: [{
                         image: "assets/images/content/item1.png",
                         info: "Нож складной WENGER Evolution ,'Автобус',13 функций, 85 мм.WEN",
@@ -49,22 +54,36 @@ const vue = (function () {
                         tempFull: 0,
                         num: 1
                     }],
-                    error: true,
-                    iteratr: 0,
-                    ui: 0,
-                    op: 0
+                    error: true
                 },
                 methods: {
                     quantityCheck: function (checkedNames) {
                         var tmp = checkedNames.length;
+
                         this.check = tmp;
                         return this.check;
 
                     },
                     reset: function (checkedNames) {
+                        var a = checkedNames.reverse()
+                        function sDecrease(i, ii) {
+                            if (i > ii)
+                                return -1;
+                            else if (i < ii)
+                                return 1;
+                            else
+                                return 0;
+                        }
+                        a.sort(sDecrease);
+                        for (var i = 0; i < a.length; i++) {
+                            var ui = a[i];
+                            ui = Number(ui);
+                            Vue.delete(this.item, ui);
+                        }
                         checkedNames.length = 0;
                         this.check = 0;
                         return this.check;
+
                     },
                     interval: function () {
                         var sum = 0;
@@ -107,9 +126,6 @@ const vue = (function () {
                     },
                     uno: function (tmp) {
                         this.tmpPrice[tmp].tempFull = this.tmpPrice[tmp].tempOne * this.tmpPrice[tmp].num;
-                    },
-                    toInt: function () {
-
                     }
                 }
             });

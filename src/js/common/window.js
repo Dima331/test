@@ -4,10 +4,10 @@ const window = (function () {
         init: function () {
             $(document).ready(function () {
                 $('#modal1').click(function (e) {
+                    e.preventDefault();
                     if (!$(".mask-container").hasClass("display")) {
                         $(".mask-container").addClass("display")
                     }
-                    e.preventDefault();
                     $(".basket__item-message").addClass("visuallyhidden");
                     $('#modal1').parent(".price").siblings(".basket__item-message").toggleClass("visuallyhidden");
                 });
